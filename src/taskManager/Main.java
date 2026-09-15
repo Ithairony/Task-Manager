@@ -11,14 +11,18 @@ public class Main {
 		TaskManager manager = new TaskManager();
 		Scanner scanner = new Scanner(System.in);
 		
+		// Program loop 
 		while (true) {
 			System.out.println("\n--------TASK MANAGER--------");
 			System.out.println("1 Add task.");
 			System.out.println("2 Complete task.");
 			System.out.println("3 Check all Tasks.");
 			System.out.println("4 Find task by id.");
+			System.out.println("5 Undo last action.");
+			System.out.println("6 Process next pending task. ");
+			System.out.println("7 List all tasks by priority. ");
 			System.out.println("0 Exit.\n");
-			System.out.println("Choose an option (0-4): ");
+			System.out.println("Choose an option (0-6): ");
 			
 			// int choice = scanner.nextInt();
 			int choice = Integer.parseInt(scanner.nextLine().trim()); // Avoids having to clean the buffer
@@ -79,6 +83,23 @@ public class Main {
 					break;
 				}
 				
+				// Undo last action 
+				case 5: {
+					
+				}	
+				
+				// Process next pending task using  a queue 
+				case 6 : {
+					Task task = manager.processNextPending();
+					System.out.println(task !=null ? "Next pending task: \n" + task : "No pending tasks.");
+					break;
+				}
+				
+				// List all tasks by priority using a Binary Search Tree
+				case 7 : {
+					
+				}
+					
 				// Exit program
 				case 0: {
 					System.out.println("\n-------- SEE YA LATER! --------");

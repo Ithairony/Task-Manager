@@ -6,6 +6,7 @@ public class TaskManager {
 	
 	// Creates a HashTable of capacity of 50 tasks 
 	private TaskHashTable  tasksByID = new TaskHashTable(10);
+	private TaskQueue pendingQueue = new TaskQueue(); 
 	private int nextId = 1;
 	
 	// Method to add a task to the bucket 
@@ -16,6 +17,9 @@ public class TaskManager {
 		
 		// Add it to the TaskHashTable object 
 		tasksByID.put(task);
+		
+		// Add task to the pending queue 
+		pendingQueue.enqueue(task);
 		
 		// Return task added 
 		return task;
@@ -37,22 +41,13 @@ public class TaskManager {
 		return true;
 	}
 
-//	// Undoes the most recent action (add or complete).
-//	public void undo(){
-//
-//	}
-//
-//	// Pulls the next pending task off the queue, in FIFO order (oldest
-//	// added task first) -- useful for "what should I work on next".
-//	public Task processNextPending() {
-//		return task;
-//	}
-
-//	// Lists every task ever added, ordered by priority (via BST in-order
-//	// traversal), regardless of done/pending status.
-//	public List<Task> listByPriority() {
-//		
-//	}
+	// Takes the next pending task off the queue (FIFO) 
+	public Task processNextPending() {
+		if (pendingQueue.isEmpty()) {
+			return null;
+		}
+		return pendingQueue.dequeue();
+	}
 	
 	// Returns tasks given an id
 	public Task findById(int id) {
