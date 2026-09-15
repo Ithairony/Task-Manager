@@ -85,7 +85,8 @@ public class Main {
 				
 				// Undo last action 
 				case 5: {
-					
+					manager.undo();
+					break;
 				}	
 				
 				// Process next pending task using  a queue 
@@ -98,6 +99,7 @@ public class Main {
 				// List all tasks by priority using a Binary Search Tree
 				case 7 : {
 					
+					break;
 				}
 					
 				// Exit program

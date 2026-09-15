@@ -7,6 +7,7 @@ public class TaskManager {
 	// Creates a HashTable of capacity of 50 tasks 
 	private TaskHashTable  tasksByID = new TaskHashTable(10);
 	private TaskQueue pendingQueue = new TaskQueue(); 
+	private ActionStack history = new ActionStack();
 	private int nextId = 1;
 	
 	// Method to add a task to the bucket 
@@ -20,6 +21,9 @@ public class TaskManager {
 		
 		// Add task to the pending queue 
 		pendingQueue.enqueue(task);
+		
+		// Add action to history
+		history.push(new ActionStack.Action("ADD", task.id));
 		
 		// Return task added 
 		return task;
@@ -38,6 +42,9 @@ public class TaskManager {
 		
 		// Sets the task as done if it passes the previous check 
 		task.done = true;
+		// Updates history stack with action for the task being done 
+		history.push(new ActionStack.Action("DONE", task.id));
+		
 		return true;
 	}
 
@@ -58,5 +65,37 @@ public class TaskManager {
 	public List<Task> getTasks() {
 		return tasksByID.getAllTasks();
 	}
+	
+	// Undo the most recent action
+	public void undo() {
+		// Check if there actions to undo 
+		if ( history.isEmpty() ) {
+			System.out.println("Nothing to undo");
+			return;
+		}
+		
+		// Removes and takes the most recent action 
+		ActionStack.Action action = history.pop();
+		// Gets the ID to search for the task on the HashTable
+		Task task = tasksByID.get(action.taskID);
+		
+		// Checks if task is in the HashTable 
+		if ( task == null) {
+			return;
+		}
+		
+		// If the last action is "ADD"
+		if (action.type.equals("ADD")) {
+			// Remove Task from the HashTable 
+			tasksByID.remove(task.id);
+			System.out.println("Undid adding task: " + task.description);
+			// If the last action is "COMPLETE"
+		} else if ( action.type.equals("COMPLETE") ) {
+			// Set done to false 
+			task.done = false;
+			System.out.println("Undid completing task: " + task.description);
+		}
+	}
+	
 	
 }
