@@ -8,6 +8,7 @@ public class TaskManager {
 	private TaskHashTable  tasksByID = new TaskHashTable(10);
 	private TaskQueue pendingQueue = new TaskQueue(); 
 	private ActionStack history = new ActionStack();
+	private TaskBinarySearchTree priorityTree = new TaskBinarySearchTree();
 	private int nextId = 1;
 	
 	// Method to add a task to the bucket 
@@ -24,6 +25,9 @@ public class TaskManager {
 		
 		// Add action to history
 		history.push(new ActionStack.Action("ADD", task.id));
+		
+		//  Add task priority to bst
+		priorityTree.insert(task);
 		
 		// Return task added 
 		return task;
@@ -97,5 +101,8 @@ public class TaskManager {
 		}
 	}
 	
-	
+	// Lists all the tasks added organized by priority ( Includes done and undone ) 
+	public List<Task> listByPriority() {
+		return priorityTree.inOrderList();
+	}
 }

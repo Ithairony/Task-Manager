@@ -24,8 +24,15 @@ public class Main {
 			System.out.println("0 Exit.\n");
 			System.out.println("Choose an option (0-6): ");
 			
-			// int choice = scanner.nextInt();
-			int choice = Integer.parseInt(scanner.nextLine().trim()); // Avoids having to clean the buffer
+			int choice;
+			
+			try {
+				choice = Integer.parseInt(scanner.nextLine().trim()); // Avoids having to clean the buffer
+			} catch (NumberFormatException e) {
+				System.out.println("\nInvalid input. Please enter a number: ");
+				continue;
+			}
+			
 			
 			// Switch according to user choice
 			switch (choice) {
@@ -98,7 +105,14 @@ public class Main {
 				
 				// List all tasks by priority using a Binary Search Tree
 				case 7 : {
-					
+					List<Task> tasks = manager.listByPriority();
+					if ( tasks.isEmpty()) {
+						System.out.println("\nThere are no tasks.");
+					} else {
+						for (Task task : tasks) {
+							System.out.println(task);
+						}
+					}
 					break;
 				}
 					
